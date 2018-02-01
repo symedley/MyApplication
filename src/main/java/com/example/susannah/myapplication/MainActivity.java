@@ -9,13 +9,15 @@ import android.widget.TextView;
 import java.util.logging.Logger;
 
 public class MainActivity extends AppCompatActivity
-    implements OneFragment.OnFragmentInteractionListener, TwoFragment.OnFragmentTwoInteractionListener {
+    implements OneFragment.OnFragmentInteractionListener{
     private static final String LOG_TAG="MainActivity";
+
+    private OneFragment oneFragment;
+    private TwoFragment twoFragment;
 
     public void onFragmentInteraction(String newString) {
         Log.v(LOG_TAG, "onFragment interaction in MainActivity");
-        TextView  tv = findViewById(R.id.txt_two);
-        tv.setText("activity detected in fragment one " + newString);
+        twoFragment.updateMessageView("NEW NEW: " + newString);
     }
 
     @Override
@@ -25,14 +27,14 @@ public class MainActivity extends AppCompatActivity
         if (findViewById(R.id.fragment_container) != null) {
             if (savedInstanceState != null) {
                 return;
-            }
-            OneFragment oneFragment = new OneFragment();
+            } // Not dealing properly with savedInstanceState
+            oneFragment = new OneFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, oneFragment).commit();
+        } else {
+            oneFragment = new OneFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_left_frame, oneFragment).commit();
+            twoFragment = TwoFragment.newInstance(getString(R.string.no_message_yet));
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_right_frame, twoFragment).commit();
         }
-    }
-
-    @Override
-    public void onFragmentTwoInteraction() {
-        Log.v(LOG_TAG, "on Fragment TWO interaction in MainActivity");
     }
 }
