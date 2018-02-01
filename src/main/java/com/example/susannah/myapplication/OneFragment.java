@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 
 /**
@@ -22,13 +23,17 @@ import android.widget.Button;
 public class OneFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-Button mButton;
-private static final String LOG_TAG = "OneFragment";
+    Button mButton;
+    private String mTheString;
+
+    private static final String LOG_TAG = "OneFragment";
 
     private OnFragmentInteractionListener mListener;
 
     public OneFragment() {
         // Required empty public constructor
+        Log.v(LOG_TAG, "FragmentOne. empty constructor");
+
     }
 
     /**
@@ -38,32 +43,37 @@ private static final String LOG_TAG = "OneFragment";
      * @return A new instance of fragment OneFragment.
      */
     public static OneFragment newInstance(String param1, String param2) {
+        Log.v(LOG_TAG, "FragmentOne. newinstance");
         OneFragment fragment = new OneFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
-
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.v(LOG_TAG, "FragmentOne. onCreeate");
+        mTheString = getActivity().getString(R.string.a_default_string);
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_one, container, false);
+        Log.v(LOG_TAG, "FragmentOne. onCreateView");
+
+        View view = inflater.inflate(R.layout.fragment_one, container, false);
         mButton = view.findViewById(R.id.button);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.v(LOG_TAG, "click listener in fragment");
                 if (mListener != null) {
-                    mListener.onFragmentInteraction();
+                    EditText et = getActivity().findViewById(R.id.editText);
+                    String newString =  et.getText().toString();
+                    mTheString = newString;
+                    mListener.onFragmentInteraction(mTheString);
                 }
             }
         });
@@ -72,8 +82,13 @@ private static final String LOG_TAG = "OneFragment";
 
     // this isn't reall used. Not sure how it's meant to be hooked up
     public void onButtonPressed(View view) {
+        Log.v(LOG_TAG, "FragmentOne. onButtonPressed !?!");
+
         if (mListener != null) {
-            mListener.onFragmentInteraction();
+            EditText et = getActivity().findViewById(R.id.editText);
+            String newString =  et.getText().toString();
+            mTheString = newString;
+            mListener.onFragmentInteraction(newString);
         }
     }
 
@@ -83,8 +98,8 @@ private static final String LOG_TAG = "OneFragment";
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-                    throw new RuntimeException(context.toString()
-                            + " must implement OnFragmentInteractionListener");
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -105,6 +120,6 @@ private static final String LOG_TAG = "OneFragment";
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void onFragmentInteraction();
+        void onFragmentInteraction(String newString);
     }
 }

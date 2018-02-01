@@ -3,4 +3,5 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_fragment_two">Hello fragment twoo</string>
+    <string name="a_default_string">a default string</string>
 </resources>

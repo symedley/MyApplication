@@ -12,9 +12,10 @@ public class MainActivity extends AppCompatActivity
     implements OneFragment.OnFragmentInteractionListener, TwoFragment.OnFragmentTwoInteractionListener {
     private static final String LOG_TAG="MainActivity";
 
-    public void onFragmentInteraction() {
+    public void onFragmentInteraction(String newString) {
         Log.v(LOG_TAG, "onFragment interaction in MainActivity");
         TextView  tv = findViewById(R.id.txt_two);
+        tv.setText("activity detected in fragment one " + newString);
     }
 
     @Override
