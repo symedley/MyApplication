@@ -5,5 +5,7 @@
     <string name="hello_fragment_two">Hello fragment twoo</string>
     <string name="a_default_string">a default string</string>
     <string name="no_message_yet">No message yet...</string>
+    <string name="title_activity_two_holder">TwoHolderActivity</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
