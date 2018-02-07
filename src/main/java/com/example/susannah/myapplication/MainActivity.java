@@ -14,14 +14,14 @@ public class MainActivity extends AppCompatActivity
     implements OneFragment.OnFragmentInteractionListener{
     private static final String LOG_TAG="MainActivity";
     private Boolean isLandscape;
-    private static final String EXTRA_MESSAGE = "com.example.susannah.myapplication.EXTRA_MESSAGE";
+    public static final String EXTRA_MESSAGE = "com.example.susannah.myapplication.EXTRA_MESSAGE";
     protected OneFragment oneFragment;
     protected TwoFragment twoFragment;
 
     public void onFragmentInteraction(String newString) {
         Log.v(LOG_TAG, "onFragment interaction in MainActivity");
         if (isLandscape == true) {
-            twoFragment.updateMessageView("NEW NEW: " + newString);
+            twoFragment.updateMessageView("NEW: " + newString);
         }else {
             Intent intent = new Intent(this, TwoHolderActivity.class);
             intent.putExtra(EXTRA_MESSAGE, newString);
