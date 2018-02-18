@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 @Dao
-public interface MyDao {
+public interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertUsers(User... users);
 
@@ -37,6 +37,10 @@ public interface MyDao {
     @Query("SELECT * FROM user WHERE first_name LIKE :search "
             + "OR last_name LIKE :search")
     public List<User> findUserWithName(String search);
+
+    @Query("SELECT * FROM user WHERE id LIKE :searchId "
+           )
+    public List<User> findUserById(int searchId);
 
     @Query("SELECT * FROM user WHERE age > :minAge LIMIT 5")
     public Cursor loadRawUsersOlderThan(int minAge); // using Cursor is discouraged.

@@ -1,5 +1,6 @@
 package com.example.susannah.myapplication;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -57,6 +58,7 @@ public class OneFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         Log.v(LOG_TAG, "FragmentOne. onCreeate");
         mTheString = getActivity().getString(R.string.a_default_string);
+
         super.onCreate(savedInstanceState);
     }
 
@@ -99,6 +101,14 @@ public class OneFragment extends Fragment {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+
+                    User user = new User();
+                    user.lastname = "datab:" + mTheString;
+                    user.firstname = "datab:" + mTheString;
+                    user.id = 1;
+                    AppDatabase appDatabase = AppDatabase.getAppDatabase(getContext());
+                    UserDao userDao = appDatabase.getUserDao();
+                    userDao.insertUsers(user);
                 }
             }
         });

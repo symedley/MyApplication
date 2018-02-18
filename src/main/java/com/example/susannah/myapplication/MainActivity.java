@@ -44,8 +44,5 @@ public class MainActivity extends AppCompatActivity
             twoFragment = TwoFragment.newInstance(getString(R.string.no_message_yet));
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_right_frame, twoFragment).commit();
         }
-        AppDatabase appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "database-name").build();
-
-//        new AsyncDataTask().execute();
     }
 }

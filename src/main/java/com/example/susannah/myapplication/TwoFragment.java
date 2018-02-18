@@ -1,5 +1,6 @@
 package com.example.susannah.myapplication;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.List;
 import java.util.logging.Logger;
 
 
@@ -85,6 +87,12 @@ public class TwoFragment extends Fragment {
         } catch (Exception e) {
             Log.e(LOG_TAG, "exception", e);
         }
+
+        AppDatabase appDatabase = AppDatabase.getAppDatabase(getContext());
+        UserDao userDao = appDatabase.getUserDao();
+        List<User> users = userDao.findUserById(1);
+        str = users.get(0).firstname;
+
         // chagne th text view
         TextView textView = getActivity().findViewById(R.id.txt_two);
         textView.setText("                                 ");
