@@ -1,6 +1,7 @@
 package com.example.susannah.myapplication;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import java.io.FileOutputStream;
 
 
 /**
@@ -57,6 +60,9 @@ public class OneFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    static final String PREF_ONESTRING = "com.example.susannah.myapplication.PREF_ONESTRING";
+    static final String filename = "MyApplicationFileName.txt";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,6 +80,25 @@ public class OneFragment extends Fragment {
                     String newString =  et.getText().toString();
                     mTheString = newString;
                     mListener.onFragmentInteraction(mTheString);
+
+                    // tst shared preferences
+                    SharedPreferences sharedPref = getActivity().getPreferences( Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString(PREF_ONESTRING, mTheString);
+                    editor.commit();
+
+                    // test File opertions
+                    // this doesn't work because the file write goes on a background
+                    // task and finishes after the UI opens the new TwoFragment.
+                    FileOutputStream fileOutputStream;
+                    try {
+                        fileOutputStream = getContext().openFileOutput(filename, Context.MODE_PRIVATE);
+                        fileOutputStream.write(mTheString.getBytes());
+                        fileOutputStream.close();
+                        Log.v(LOG_TAG, "writing to file " + mTheString);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
