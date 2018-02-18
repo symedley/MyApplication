@@ -12,7 +12,7 @@ import android.graphics.Bitmap;
  * Created by Susannah on 2/18/2018.
  */
 
-@Entity (indices = {@Index(value = {"firstname", "lastname"},
+@Entity (indices = {@Index(value = {"first_name", "last_name"},
         unique = true)})
 public class User {
     @PrimaryKey

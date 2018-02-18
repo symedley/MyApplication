@@ -1,14 +1,10 @@
 package com.example.susannah.myapplication;
 
-import android.app.FragmentManager;
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-
-import java.util.logging.Logger;
 
 public class MainActivity extends AppCompatActivity
     implements OneFragment.OnFragmentInteractionListener{
@@ -17,6 +13,7 @@ public class MainActivity extends AppCompatActivity
     public static final String EXTRA_MESSAGE = "com.example.susannah.myapplication.EXTRA_MESSAGE";
     protected OneFragment oneFragment;
     protected TwoFragment twoFragment;
+    AsyncDataTask myAsyncDataTaskTask;
 
     public void onFragmentInteraction(String newString) {
         Log.v(LOG_TAG, "onFragment interaction in MainActivity");
@@ -47,5 +44,8 @@ public class MainActivity extends AppCompatActivity
             twoFragment = TwoFragment.newInstance(getString(R.string.no_message_yet));
             getSupportFragmentManager().beginTransaction().add(R.id.fragment_right_frame, twoFragment).commit();
         }
+        AppDatabase appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "database-name").build();
+
+//        new AsyncDataTask().execute();
     }
 }

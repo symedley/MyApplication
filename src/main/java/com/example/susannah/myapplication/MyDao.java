@@ -41,9 +41,4 @@ public interface MyDao {
     @Query("SELECT * FROM user WHERE age > :minAge LIMIT 5")
     public Cursor loadRawUsersOlderThan(int minAge); // using Cursor is discouraged.
 
-    @Query("SELECT * FROM book "
-            + "INNER JOIN loan ON loan.book_id = book.id "
-            + "INNER JOIN user ON user.id = loan.user_id "
-            + "WHERE user.name LIKE :userName")
-    public List<Book> findBooksBorrowedByNameSync(String userName);
 }
