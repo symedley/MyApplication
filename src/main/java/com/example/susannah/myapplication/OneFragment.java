@@ -1,5 +1,6 @@
 package com.example.susannah.myapplication;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -28,7 +29,7 @@ public class OneFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     Button mButton;
-    private String mTheString;
+//    private String mTheString;
 
     private static final String LOG_TAG = "OneFragment";
 
@@ -57,8 +58,7 @@ public class OneFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.v(LOG_TAG, "FragmentOne. onCreeate");
-        mTheString = getActivity().getString(R.string.a_default_string);
-
+//        mTheString = getActivity().getString(R.string.a_default_string);
         super.onCreate(savedInstanceState);
     }
 
@@ -77,38 +77,62 @@ public class OneFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.v(LOG_TAG, "click listener in fragment");
-                if (mListener != null) {
-                    EditText et = getActivity().findViewById(R.id.editText);
-                    String newString =  et.getText().toString();
-                    mTheString = newString;
-                    mListener.onFragmentInteraction(mTheString);
+                EditText et = getActivity().findViewById(R.id.editText);
+                String newString = et.getText().toString();
+                if (MainActivity.EXERCISE_PREFERENCES == true) {
 
                     // tst shared preferences
-                    SharedPreferences sharedPref = getActivity().getPreferences( Context.MODE_PRIVATE);
+                    SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString(PREF_ONESTRING, mTheString);
+                    editor.putString(PREF_ONESTRING, newString);
                     editor.commit();
+                    if (mListener != null) {
+                        //                    mTheString = newString;
+                        mListener.onFragmentInteraction(newString);
+                    }
+                }
 
-                    // test File opertions
-                    // this doesn't work because the file write goes on a background
-                    // task and finishes after the UI opens the new TwoFragment.
+                // test File opertions
+                // this doesn't work because the file write goes on a background
+                // task and finishes after the UI opens the new TwoFragment.
+                if (MainActivity.EXERCISE_FILE == true) {
+
                     FileOutputStream fileOutputStream;
                     try {
                         fileOutputStream = getContext().openFileOutput(filename, Context.MODE_PRIVATE);
-                        fileOutputStream.write(mTheString.getBytes());
+                        fileOutputStream.write(newString.getBytes());
                         fileOutputStream.close();
-                        Log.v(LOG_TAG, "writing to file " + mTheString);
+                        Log.v(LOG_TAG, "writing to file " + newString);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    if (mListener != null) {
+                        //                    mTheString = newString;
+                        mListener.onFragmentInteraction(newString);
+                    }
+                }
 
+                if ((MainActivity.EXERCISE_VIEW_MODEL == true)) {
+                    // this should trigger the update
+                    Log.v(LOG_TAG, "don't know what to do here");
+                    if (mListener != null) {
+                        //                    mTheString = newString;
+                        mListener.onFragmentInteraction(newString);
+                    }
+                }
+                if ((MainActivity.EXERCISE_ROOM_DATABASE == true)) {
                     User user = new User();
-                    user.lastname = "datab:" + mTheString;
-                    user.firstname = "datab:" + mTheString;
+                    user.lastname = "datab:" + newString;
+                    user.firstname = "datab:" + newString;
                     user.id = 1;
                     AppDatabase appDatabase = AppDatabase.getAppDatabase(getContext());
                     UserDao userDao = appDatabase.getUserDao();
                     userDao.insertUsers(user);
+                    Log.v(LOG_TAG, "user inserted in database");
+                    if (mListener != null) {
+                        //                    mTheString = newString;
+                        mListener.onFragmentInteraction(newString);
+                    }
                 }
             }
         });
@@ -122,7 +146,6 @@ public class OneFragment extends Fragment {
         if (mListener != null) {
             EditText et = getActivity().findViewById(R.id.editText);
             String newString =  et.getText().toString();
-            mTheString = newString;
             mListener.onFragmentInteraction(newString);
         }
     }
