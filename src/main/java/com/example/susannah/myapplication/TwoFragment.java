@@ -100,54 +100,6 @@ public class TwoFragment extends Fragment {
             Log.v(LOG_TAG, "data in the view model is now " + model.getString().getValue().toString());
             // it should not be necessary update the textview directly.
         }
-        if (MainActivity.EXERCISE_PREFERENCES == true) {
-            // this is just testing shared preferences
-            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-            String prefString = sharedPref.getString(OneFragment.PREF_ONESTRING, "mistake");
-            prefString = prefString.concat(" - pulled from Prefs");
-            Log.v(LOG_TAG, "pref: " + prefString);
-            theNewStringArg = prefString;
-            mTheTextView.setText(theNewStringArg);
-
-        }
-        //  File opertaions
-        if (MainActivity.EXERCISE_FILE == true) {
-            try {
-                String filenm = getContext().getFilesDir() + "/" + OneFragment.filename;
-                FileReader fileReader = new FileReader(filenm);
-                if (fileReader != null) {
-                    BufferedReader bufferedReader = new BufferedReader(fileReader);
-                    StringBuffer stringBuffer = new StringBuffer();
-                    String line;
-                    while ((line = bufferedReader.readLine()) != null) {
-                        stringBuffer.append(line);
-                    }
-
-                    Log.v(LOG_TAG, "the text read from the file is " + stringBuffer.toString());
-                    theNewStringArg = stringBuffer.toString();
-                    mTheTextView.setText(theNewStringArg);
-
-                } else {
-                    Log.v(LOG_TAG, "no file found");
-                }
-            } catch (Exception e) {
-                Log.e(LOG_TAG, "exception", e);
-            }
-        }
-
-        if (MainActivity.EXERCISE_ROOM_DATABASE == true) {
-            // Room database
-            AppDatabase appDatabase = AppDatabase.getAppDatabase(getContext());
-            UserDao userDao = appDatabase.getUserDao();
-            List<User> users = userDao.findUserById(1);
-            if (users != null) {
-                if (users.size() != 0) {
-                    theNewStringArg = users.get(0).firstname;
-                    Log.v(LOG_TAG, "user READ from database" + theNewStringArg);
-                } else Log.v(LOG_TAG, "READ from database was empty list");
-            } else Log.v(LOG_TAG, "READ from db was null");
-            mTheTextView.setText(theNewStringArg);
-        }
     }
 
     @Override

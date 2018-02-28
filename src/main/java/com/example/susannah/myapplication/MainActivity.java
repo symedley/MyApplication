@@ -10,8 +10,6 @@ public class MainActivity extends AppCompatActivity
     implements OneFragment.OnFragmentInteractionListener{
     private static final String LOG_TAG="MainActivity";
 
-    protected static final boolean EXERCISE_FILE = false;
-    protected static final boolean EXERCISE_PREFERENCES = false;
     protected static final boolean EXERCISE_ROOM_DATABASE = false;
     protected static final boolean EXERCISE_VIEW_MODEL = true;
 

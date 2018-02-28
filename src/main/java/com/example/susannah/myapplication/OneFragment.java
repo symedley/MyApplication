@@ -79,38 +79,6 @@ public class OneFragment extends Fragment {
                 Log.v(LOG_TAG, "click listener in fragment");
                 EditText et = getActivity().findViewById(R.id.editText);
                 String newString = et.getText().toString();
-                if (MainActivity.EXERCISE_PREFERENCES == true) {
-
-                    // tst shared preferences
-                    SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString(PREF_ONESTRING, newString);
-                    editor.commit();
-                    if (mListener != null) {
-                        //                    mTheString = newString;
-                        mListener.onFragmentInteraction(newString);
-                    }
-                }
-
-                // test File opertions
-                // this doesn't work because the file write goes on a background
-                // task and finishes after the UI opens the new TwoFragment.
-                if (MainActivity.EXERCISE_FILE == true) {
-
-                    FileOutputStream fileOutputStream;
-                    try {
-                        fileOutputStream = getContext().openFileOutput(filename, Context.MODE_PRIVATE);
-                        fileOutputStream.write(newString.getBytes());
-                        fileOutputStream.close();
-                        Log.v(LOG_TAG, "writing to file " + newString);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    if (mListener != null) {
-                        //                    mTheString = newString;
-                        mListener.onFragmentInteraction(newString);
-                    }
-                }
 
                 if ((MainActivity.EXERCISE_VIEW_MODEL == true)) {
                     // this should trigger the update
