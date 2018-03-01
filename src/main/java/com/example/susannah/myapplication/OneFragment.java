@@ -30,6 +30,7 @@ public class OneFragment extends Fragment {
 
     Button mButton;
 //    private String mTheString;
+    StringViewModel model;
 
     private static final String LOG_TAG = "OneFragment";
 
@@ -70,6 +71,7 @@ public class OneFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Log.v(LOG_TAG, "FragmentOne. onCreateView");
+        model = ViewModelProviders.of(getActivity()).get(StringViewModel.class);
 
         View view = inflater.inflate(R.layout.fragment_one, container, false);
         mButton = view.findViewById(R.id.button);
@@ -83,10 +85,11 @@ public class OneFragment extends Fragment {
                 if ((MainActivity.EXERCISE_VIEW_MODEL == true)) {
                     // this should trigger the update
                     Log.v(LOG_TAG, "don't know what to do here");
-                    if (mListener != null) {
-                        //                    mTheString = newString;
-                        mListener.onFragmentInteraction(newString);
-                    }
+                    model.getString().setValue(newString);
+//                    if (mListener != null) {
+//                        //                    mTheString = newString;
+//                        mListener.onFragmentInteraction(newString);
+//                    }
                 }
                 if ((MainActivity.EXERCISE_ROOM_DATABASE == true)) {
                     User user = new User();

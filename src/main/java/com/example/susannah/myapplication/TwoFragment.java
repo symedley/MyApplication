@@ -58,21 +58,6 @@ public class TwoFragment extends Fragment {
             String string = getArguments().getString(ARG_MESG);
             Log.v(LOG_TAG, "The argument was this string :"+ string +" but it's beig ignored");
         }
-  //      final UserViewModel model = ViewModelProviders.of(this).get(UserViewModel.class);
-        model = ViewModelProviders.of(this).get(StringViewModel.class);
-
-        // Create the observer which updates the UI").
-        final Observer<String> stringObserver = new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable final String newString) {
-                // Update the UI, in this case, a TextView.
-                Log.v(LOG_TAG, "onChanged. newString = " + newString);
-                mTheTextView.setText(newString);
-            }
-        };
-
-        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-        model.getString().observe(this, stringObserver);
     }
 
     public void onStart() {
@@ -92,7 +77,6 @@ public class TwoFragment extends Fragment {
     public void updateMessageView(String theNewStringArg) {
         Log.v(LOG_TAG, "updateMessageView");
         // chagne th text view
-        mTheTextView = getActivity().findViewById(R.id.txt_two);
         mTheTextView.setText("                                 ");
         if (MainActivity.EXERCISE_VIEW_MODEL == true) {
             model.getString().setValue(theNewStringArg);
@@ -105,6 +89,24 @@ public class TwoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_two, container, false);
+        View view = inflater.inflate(R.layout.fragment_two, container, false);
+        mTheTextView = view.findViewById(R.id.txt_two);
+        //      final UserViewModel model = ViewModelProviders.of(this).get(UserViewModel.class);
+        model = ViewModelProviders.of(getActivity()).get(StringViewModel.class);
+
+        // Create the observer which updates the UI").
+        final Observer<String> stringObserver = new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable final String newString) {
+                // Update the UI, in this case, a TextView.
+                Log.v(LOG_TAG, "onChanged. newString = " + newString);
+                mTheTextView.setText(newString);
+            }
+        };
+
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+        model.getString().observe(this, stringObserver);
+        return view;
     }
 }
+
